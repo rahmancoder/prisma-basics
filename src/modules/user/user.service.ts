@@ -4,17 +4,23 @@ import { prisma } from "../../lib/prisma";
 import { RegisterUserPayload } from "./user.interface";
 
 const registerUserIntoDB = async (payload: RegisterUserPayload) =>{
+
     const { name, email, password, profilePhoto } = payload;
+
     const isUserExist = await prisma.user.findUnique({
         where: { email }
     })
 
-    if (isUserExist) {
+    if (isUserExist) 
+    {
         throw new Error("User with this email already exists");
     }
 
+    
     const hashedPassword = await bcrypt.hash(password, Number(config.bcrypt_salt_rounds))
 
+
+    // Create 
     const createdUser = await prisma.user.create({
         data: {
             name,
@@ -35,15 +41,21 @@ const registerUserIntoDB = async (payload: RegisterUserPayload) =>{
     //     }
     // })
 
+
+    // Read 
     const user = await prisma.user.findUnique({
         where: {
             id: createdUser.id,
             email: createdUser.email || email
         },
-        omit: {
+
+        omit: 
+        {
             password: true
         },
-        include: {
+
+        include: 
+        {
             profile: true
         }
     })
@@ -54,17 +66,23 @@ const registerUserIntoDB = async (payload: RegisterUserPayload) =>{
 const getMyProfileFromDB = async (userId : string) => {
     const user = await prisma.user.findUniqueOrThrow({
         where : {id : userId},
-        omit : {
+        omit : 
+        {
             password : true
         },
-        include : {
+
+        include : 
+        {
             profile : true
         }
+
     });
 
     return user;
 }
 
+
+// Update 
 const updateMyProfileInDB = async (userId : string, payload : any) => {
     const {name, email, profilePhoto, bio} = payload;
 
@@ -82,13 +100,16 @@ const updateMyProfileInDB = async (userId : string, payload : any) => {
             }
         },
 
-        omit : {
+        omit : 
+        {
             password : true
         },
 
-        include : {
+        include : 
+        {
             profile : true
         }
+
     })
 
     return updatedUser;

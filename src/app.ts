@@ -9,11 +9,13 @@ import { userRoutes } from "./modules/user/user.route";
 
 const app : Application = express();
 
+// CORS
 app.use(cors({
     origin : config.app_url,
     credentials : true,
 }))
 
+// Express MiddleWare
 app.use(express.json());
 app.use(express.urlencoded({ extended : true }));
 app.use(cookieParser());
