@@ -37,8 +37,6 @@ const auth = (...roles: Role[]) =>
         config.jwt_access_secret as string,
       ) as JwtPayload;
 
-      console.log("Decoded Token:", decoded);
-
       if (!roles.includes(decoded.role)) {
         return res.status(403).json({
           success: false,

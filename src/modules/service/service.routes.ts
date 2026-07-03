@@ -9,7 +9,7 @@ serviceRoutes.get("/", serviceController.getAllServices);
 
 serviceRoutes.get("/:id", serviceController.getServiceById);
 
-serviceRoutes.post("/", auth(Role.ADMIN), serviceController.createService);
+serviceRoutes.post("/", auth(Role.PROVIDER), serviceController.createService);
 
 serviceRoutes.put("/:id", serviceController.updateService);
 
